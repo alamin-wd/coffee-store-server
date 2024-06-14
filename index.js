@@ -37,7 +37,16 @@ async function run() {
         console.error('Error Connecting to MongoDB, error');
         process.exit(1);
     }
+
 }
+
+app.get('/coffee', async (req, res) => {
+
+    const cursor = coffeeCollection.find();
+    const result = await cursor.toArray();
+
+    res.send(result);
+})
 
 app.post('/coffee', async (req, res) => {
     const newCoffee = req.body;
@@ -55,7 +64,6 @@ app.post('/coffee', async (req, res) => {
 app.get('/', (req, res) => {
     res.send('Coffee making server is running.');
 })
-
 
 run().then(() => {
     app.listen(port, () => {
